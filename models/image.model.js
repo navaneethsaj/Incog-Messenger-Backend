@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
-var UserImage = new mongoose.model('UserImage' , {
+var UserImage = mongoose.model('UserImage' , {
     fileName: String,
     img:
     {
