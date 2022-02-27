@@ -60,6 +60,21 @@ async function updateLastSeen(req, res){
     }
 }
 
+async function updateUserDetails(req, res){
+    try {
+        let {_id, name, tagline, gender, profile_pic} = req.body
+        await User.findByIdAndUpdate(ObjectId(_id), {name, tagline, gender, profile_pic}).exec();
+        res.status(200).send({status: 200})
+    } catch (error) {
+        if (error.code === 11000){
+            res.send({status: 201, message: 'duplicate user'})
+        }else{
+            console.log(error)
+            res.status(500).send("something went wrong")
+        }
+    }
+}
+
 async function getUserById(req, res){
     try {
         let {_id} = req.body
@@ -88,5 +103,6 @@ module.exports = {
     createUser,
     getUserById,
     updateLastSeen,
-    getStatusById
+    getStatusById,
+    updateUserDetails
 }
