@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const User = require('../models/user.model');
 
 async function getRandomUsers(req, res){
@@ -29,7 +30,63 @@ async function createUser(req, res){
     }
 }
 
+async function updateUserStatus(req, res){
+    try {
+        let {_id, status} = req.body
+        await User.findByIdAndUpdate(ObjectId(_id), {status}).exec();
+        res.status(200).send({status: 200})
+    } catch (error) {
+        if (error.code === 11000){
+            res.send({status: 201, message: 'duplicate user'})
+        }else{
+            console.log(error)
+            res.status(500).send("something went wrong")
+        }
+    }
+}
+
+async function updateLastSeen(req, res){
+    try {
+        let {_id} = req.body
+        await User.findByIdAndUpdate(ObjectId(_id), {lastSeen: new Date()}).exec();
+        res.status(200).send({status: 200})
+    } catch (error) {
+        if (error.code === 11000){
+            res.send({status: 201, message: 'duplicate user'})
+        }else{
+            console.log(error)
+            res.status(500).send("something went wrong")
+        }
+    }
+}
+
+async function getUserById(req, res){
+    try {
+        let {_id} = req.body
+        let users = await User.findById(ObjectId(_id)).exec()
+        res.send({status: 200, users})
+    } catch (error) {
+        console.log(error)
+        res.status(500).send("something went wrong")
+    }
+}
+
+async function getStatusById(req, res){
+    try {
+        let {_id} = req.body
+        let users = await User.findById(ObjectId(_id)).select({status: 1, lastSeen: 1}).exec()
+        res.send({status: 200, users})
+    } catch (error) {
+        console.log(error)
+        res.status(500).send("something went wrong")
+    }
+}
+
 module.exports = {
     getRandomUsers,
-    createUser
+    updateUserStatus,
+    createUser,
+    getUserById,
+    updateLastSeen,
+    getStatusById
 }
