@@ -33,7 +33,7 @@ async function createUser(req, res){
 async function updateUserStatus(req, res){
     try {
         let {_id, status} = req.body
-        await User.findByIdAndUpdate(ObjectId(_id), {status}).exec();
+        await User.findByIdAndUpdate(ObjectId(_id), {status, lastSeen: new Date()}).exec();
         res.status(200).send({status: 200})
     } catch (error) {
         if (error.code === 11000){
