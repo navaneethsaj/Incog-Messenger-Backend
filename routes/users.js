@@ -2,7 +2,7 @@ var express = require('express');
 const { getRandomUsers, createUser, updateUserStatus, updateLastSeen, getUserById, getStatusById, updateUserDetails } = require('../controller/user.controller');
 var router = express.Router();
 
-router.get('/randomusers', getRandomUsers);
+router.post('/randomusers', getRandomUsers);
 router.post('/createuser', createUser);
 router.post('/updateuserstatus', updateUserStatus);
 router.post('/updatelastseen', updateLastSeen);

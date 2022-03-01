@@ -3,11 +3,16 @@ const User = require('../models/user.model');
 
 async function getRandomUsers(req, res){
     try {
+        let {myId} = req.body;
         let users = await User.aggregate([
-            {$sample: {size: 30}}
+            {$match: {
+                _id: {$ne: ObjectId(myId)}
+            }},
+            {$sample: {size: 30}},
         ]).exec()
         res.send({status: 200, users})
     } catch (error) {
+        console.log(error)
         res.status(500).send("something went wrong")
     }
 }
