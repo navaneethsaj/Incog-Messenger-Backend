@@ -91,6 +91,20 @@ async function getUserById(req, res){
     }
 }
 
+async function getUserByIds(req, res){
+    try {
+        let {ids} = req.body
+        for (let id of ids){
+            id = ObjectId(id)
+        }
+        let users = await User.find({_id: {$in: ids}}).exec()
+        res.send({status: 200, users})
+    } catch (error) {
+        console.log(error)
+        res.status(500).send("something went wrong")
+    }
+}
+
 async function getStatusById(req, res){
     try {
         let {_id} = req.body
@@ -109,5 +123,6 @@ module.exports = {
     getUserById,
     updateLastSeen,
     getStatusById,
-    updateUserDetails
+    updateUserDetails,
+    getUserByIds
 }

@@ -1,5 +1,5 @@
 var express = require('express');
-const { getRandomUsers, createUser, updateUserStatus, updateLastSeen, getUserById, getStatusById, updateUserDetails } = require('../controller/user.controller');
+const { getRandomUsers, createUser, updateUserStatus, updateLastSeen, getUserById, getStatusById, updateUserDetails, getUserByIds } = require('../controller/user.controller');
 var router = express.Router();
 
 router.post('/randomusers', getRandomUsers);
@@ -8,6 +8,7 @@ router.post('/updateuserstatus', updateUserStatus);
 router.post('/updatelastseen', updateLastSeen);
 router.post('/updateuserdetails', updateUserDetails);
 router.post('/getuserbyid', getUserById);
+router.post('/getuserbyids', getUserByIds);
 router.post('/getstatusbyid', getStatusById);
 
 module.exports = router;
