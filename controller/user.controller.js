@@ -8,7 +8,10 @@ async function getRandomUsers(req, res){
             {$match: {
                 _id: {$ne: ObjectId(myId)}
             }},
-            {$sample: {size: 30}},
+            {$sort: {
+                lastSeen: -1
+            }},
+            {$limit: 30},
         ]).exec()
         res.send({status: 200, users})
     } catch (error) {
